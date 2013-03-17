@@ -17,4 +17,7 @@
 
 @property (nonatomic, readwrite) SVWebViewControllerAvailableActions availableActions;
 
+@property (nonatomic, readonly) UIWebView *mainWebView;
+@property (nonatomic, readonly) NSURL *initialURL;
+
 @end

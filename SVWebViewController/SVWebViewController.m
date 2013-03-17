@@ -17,9 +17,6 @@
 @property (nonatomic, strong, readonly) UIBarButtonItem *actionBarButtonItem;
 @property (nonatomic, strong, readonly) UIActionSheet *pageActionSheet;
 
-@property (nonatomic, strong) UIWebView *mainWebView;
-@property (nonatomic, strong) NSURL *URL;
-
 - (id)initWithAddress:(NSString*)urlString;
 - (id)initWithURL:(NSURL*)URL;
 - (void)loadURL:(NSURL*)URL;
@@ -38,8 +35,8 @@
 @implementation SVWebViewController
 
 @synthesize availableActions;
+@synthesize mainWebView = _mainWebView, initialURL = _URL;
 
-@synthesize URL, mainWebView;
 @synthesize backBarButtonItem, forwardBarButtonItem, refreshBarButtonItem, stopBarButtonItem, actionBarButtonItem, pageActionSheet;
 
 #pragma mark - setters and getters
@@ -127,7 +124,7 @@
 - (id)initWithURL:(NSURL*)pageURL {
     
     if(self = [super init]) {
-        self.URL = pageURL;
+        _URL = pageURL;
         self.availableActions = SVWebViewControllerAvailableActionsOpenInSafari | SVWebViewControllerAvailableActionsOpenInChrome | SVWebViewControllerAvailableActionsMailLink;
     }
     
@@ -135,17 +132,17 @@
 }
 
 - (void)loadURL:(NSURL *)pageURL {
-    [mainWebView loadRequest:[NSURLRequest requestWithURL:pageURL]];
+    [_mainWebView loadRequest:[NSURLRequest requestWithURL:pageURL]];
 }
 
 #pragma mark - View lifecycle
 
 - (void)loadView {
-    mainWebView = [[UIWebView alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    mainWebView.delegate = self;
-    mainWebView.scalesPageToFit = YES;
-    [self loadURL:self.URL];
-    self.view = mainWebView;
+    _mainWebView = [[UIWebView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    _mainWebView.delegate = self;
+    _mainWebView.scalesPageToFit = YES;
+    [self loadURL:_URL];
+    self.view = _mainWebView;
 }
 
 - (void)viewDidLoad {
@@ -155,7 +152,7 @@
 
 - (void)viewDidUnload {
     [super viewDidUnload];
-    mainWebView = nil;
+    _mainWebView = nil;
     backBarButtonItem = nil;
     forwardBarButtonItem = nil;
     refreshBarButtonItem = nil;
@@ -196,9 +193,9 @@
 
 - (void)dealloc
 {
-    [mainWebView stopLoading];
+    [_mainWebView stopLoading];
  	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-    mainWebView.delegate = nil;
+    _mainWebView.delegate = nil;
 }
 
 #pragma mark - Toolbar
@@ -307,19 +304,19 @@
 #pragma mark - Target actions
 
 - (void)goBackClicked:(UIBarButtonItem *)sender {
-    [mainWebView goBack];
+    [_mainWebView goBack];
 }
 
 - (void)goForwardClicked:(UIBarButtonItem *)sender {
-    [mainWebView goForward];
+    [_mainWebView goForward];
 }
 
 - (void)reloadClicked:(UIBarButtonItem *)sender {
-    [mainWebView reload];
+    [_mainWebView reload];
 }
 
 - (void)stopClicked:(UIBarButtonItem *)sender {
-    [mainWebView stopLoading];
+    [_mainWebView stopLoading];
 	[self updateToolbarItems];
 }
 
