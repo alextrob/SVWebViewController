@@ -27,7 +27,6 @@
 - (void)goForwardClicked:(UIBarButtonItem *)sender;
 - (void)reloadClicked:(UIBarButtonItem *)sender;
 - (void)stopClicked:(UIBarButtonItem *)sender;
-- (void)actionButtonClicked:(UIBarButtonItem *)sender;
 
 @end
 

@@ -15,6 +15,8 @@
 - (id)initWithAddress:(NSString*)urlString;
 - (id)initWithURL:(NSURL*)URL;
 
+- (void)actionButtonClicked:(id)sender;
+
 @property (nonatomic, readwrite) SVWebViewControllerAvailableActions availableActions;
 
 @property (nonatomic, readonly) UIWebView *mainWebView;
